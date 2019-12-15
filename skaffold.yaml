@@ -7,14 +7,16 @@ build:
     envTemplate:
       template: "{{.IMAGE_NAME}}:latest"
   artifacts:
+  - image: dtriana/nginx
+    context: servers/nginx
   - image: dtriana/es3
     context: servers/elastic-s3
     docker:
-      dockerfile: Dockerfile-kube
       buildArgs:
         ACCESS_KEY: "YOUR_ACCESS_KEY"
         SECRET_KEY: "YOUR_SECRET_KEY"
         ENDPOINT: "EP_GOES_HERE"
+ 
 deploy:
   kubectl:
     manifests:
@@ -22,3 +24,4 @@ deploy:
       - ./kubernetes/es-svc.yaml
       - ./kubernetes/es-rc.yaml
       - ./kubernetes/rbac.yaml
+      - ./kubernetes/nginx.yaml

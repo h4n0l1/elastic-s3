@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: revproxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: revproxy
+  template:
+    metadata:
+      labels:
+        app: revproxy
+    spec:
+      nodeSelector:
+        serve: instance-a
+      containers:
+      - name: nginx
+        image: dtriana/nginx
+        ports:
+        - containerPort: 80
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: revproxy
+spec:
+  type: NodePort
+  ports:
+  - name: http1
+    port: 80
+    nodePort: 30080
+    protocol: TCP
+  - name: http2
+    port: 8080
+    nodePort: 30880
+    protocol: TCP
+  selector:
+    app: revproxy

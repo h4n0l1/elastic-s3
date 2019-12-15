@@ -3,14 +3,16 @@ kind: ReplicationController
 metadata:
   name: es
   labels:
-    component: elasticsearch
+    app: revproxy
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        component: elasticsearch
+        app: revproxy
     spec:
+      nodeSelector:
+        serve: instance-b
       serviceAccount: elasticsearch
       initContainers:
       - name: init-sysctl

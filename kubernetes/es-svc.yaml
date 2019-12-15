@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: elasticsearch
   labels:
-    component: elasticsearch
+    app: revproxy
 spec:
   type: NodePort
   selector:
-    component: elasticsearch
+    app: revproxy
   ports:
   - name: http
     port: 9200
