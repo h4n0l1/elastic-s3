@@ -44,7 +44,7 @@
    user@laptop:~/vagrant-boxes/Kubernetes$ vagrant ssh master
    [vagrant@master ~]$ sudo su
    [root@master vagrant]# /vagrant/scripts/kubeadm-setup-master.sh  ##you'll be asked for your credential at oracle.com
-   [root@master vagrant]# docker logout
+   [root@master vagrant]# docker logout container-registry.oracle.com
    [root@master vagrant]# docker login   ##you'll be asked for your credential at docker.com
    ```
 
@@ -53,7 +53,7 @@
    user@laptop:~/vagrant-boxes/Kubernetes$ vagrant ssh worker1
    [vagrant@master ~]$ sudo su
    [root@master vagrant]# /vagrant/scripts/kubeadm-setup-worker.sh   ##you'll be asked for your credential at oracle.com
-   [root@master vagrant]# docker logout
+   [root@master vagrant]# docker logout container-registry.oracle.com
    [root@master vagrant]# docker login   ##you'll be asked for your credential at docker.com
    ```
 
@@ -79,6 +79,7 @@
 1. SSH to kubernetes master, and clone this repo to your favorite folder
    ```bash
    user@laptop:~/vagrant-boxes/Kubernetes$ vagrant ssh master
+   [vagrant@master ~]$ sudo yum install git
    [vagrant@master ~]$ git clone https://github.com/h4n0l1/elastic-s3.git target_folder
    ```
 2. Made changes first to these files, by changing image name prefix to use your docker hub account instead of mine, from **dtriana** to **YOUR_DOCKER_HUB_ACCOUNT**
