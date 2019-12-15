@@ -65,12 +65,13 @@
    ```
 
 ## Pre Deployment
-1. ```bash
+1. Apply label for each nodes and remove taint from `master` so it can be scheduled to receive deployment
+   ```bash
    kubectl label nodes master.vagrant.vm serve=instance-a
    kubectl label nodes worker1.vagrant.vm serve=instance-b
    kubectl taint nodes --all node-role.kubernetes.io/master-
    ```
-2. SSH to master node, then install skaffold, refer to this link for detail steps (https://skaffold.dev/docs/install/)
+2. SSH to `master` node, then install `skaffold`, refer to this link for detail steps (https://skaffold.dev/docs/install/)
 
 ## Deployment
 1. SSH to kubernetes master, and clone this repo to your favorite folder
@@ -121,3 +122,25 @@
       "tagline" : "You Know, for Search"
    }
    ```
+
+## Automation Pipeline
+1. Before we start, remove first current deployment with this command:
+   ```bash
+   [vagrant@master ~/target_folder]$ skaffold delete
+   ```
+2. Run the automation pipeline with this command:
+   ```bash
+   [vagrant@master ~/target_folder]$ skaffold dev --no-prune=true
+   Listing files to watch...
+   - dtriana/nginx
+   - dtriana/es3
+   Generating tags...
+   .
+   .
+   .
+   .
+     - deployment.apps/nginx created
+     - service/nginx created
+   Watching for changes...
+   ```
+3. Now, every changes made in context folders (`./servers/elastic-s3` and/or `/servers/nginx`), will trigger build process, push new image(s) and deploy it.
