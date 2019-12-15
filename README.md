@@ -45,7 +45,8 @@
    [vagrant@master ~]$ sudo su
    [root@master vagrant]# /vagrant/scripts/kubeadm-setup-master.sh  ##you'll be asked for your credential at oracle.com
    [root@master vagrant]# docker logout container-registry.oracle.com
-   [root@master vagrant]# docker login   ##you'll be asked for your credential at docker.com
+   [root@master vagrant]# exit 
+   [vagrant@master ~]$ docker login   ##you'll be asked for your credential at docker.com
    ```
 
    > **[for worker node]** 
@@ -54,7 +55,8 @@
    [vagrant@master ~]$ sudo su
    [root@master vagrant]# /vagrant/scripts/kubeadm-setup-worker.sh   ##you'll be asked for your credential at oracle.com
    [root@master vagrant]# docker logout container-registry.oracle.com
-   [root@master vagrant]# docker login   ##you'll be asked for your credential at docker.com
+   [root@master vagrant]# exit
+   [vagrant@worker1 ~]$ docker login   ##you'll be asked for your credential at docker.com
    ```
 
 9. Verify your kubernetes cluster by executing this command:
