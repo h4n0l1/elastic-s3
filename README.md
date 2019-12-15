@@ -72,3 +72,52 @@
    ```
 2. SSH to master node, then install skaffold, refer to this link for detail steps (https://skaffold.dev/docs/install/)
 
+## Deployment
+1. SSH to kubernetes master, and clone this repo to your favorite folder
+   ```bash
+   user@laptop:~/vagrant-boxes/Kubernetes$ vagrant ssh master
+   [vagrant@master ~]$ git clone https://github.com/h4n0l1/elastic-s3.git target_folder
+   ```
+2. Made changes first to these files, by changing image name prefix to use your docker hub account instead of mine, from **dtriana** to **YOUR_DOCKER_HUB_ACCOUNT**
+   ```html
+   ./kubernetes/es-rc.yaml        
+   ./kubernetes/nginx.yaml        
+   ./skaffold.yaml  
+   ```
+2. Start to build images and deploy them in cluster with skaffold
+   ```bash
+   [vagrant@master ~]$ cd target_folder
+   [vagrant@master ~/target_folder]$ skaffold run
+   ```
+3. Confirm deployed pods with `kubectl`
+   ```bash
+   [vagrant@master ~/target_folder]$ kubectl get  pods --output=wide
+   NAME                     READY   STATUS    RESTARTS   AGE   IP            NODE                 NOMINATED NODE
+   es-k2dnz                 1/1     Running   0          32s   10.244.1.47   worker1.vagrant.vm   <none>
+   nginx-6f48695fbd-2k2nw   1/1     Running   0          32s   10.244.0.12   master.vagrant.vm    <none>
+   ```
+4. Put this line to `/etc/hosts`
+   ```bash
+   127.0.0.1	instance-a search
+   ```
+5. Elasticsearch can be accessed from it pods at port 9200, since reverse-proxy already setup, so we can access it through `nginx` service through port 30881
+   ```bash
+   [vagrant@master ~/target_folder]$ curl http://search:30881
+   {
+      "name" : "SxPwUFF",
+      "cluster_name" : "docker-cluster",
+      "cluster_uuid" : "3VNMYpg2QDWImpF0Wg2jcw",
+      "version" : {
+        "number" : "6.8.5",
+        "build_flavor" : "default",
+        "build_type" : "docker",
+        "build_hash" : "78990e9",
+        "build_date" : "2019-11-13T20:04:24.100411Z",
+        "build_snapshot" : false,
+        "lucene_version" : "7.7.2",
+        "minimum_wire_compatibility_version" : "5.6.0",
+        "minimum_index_compatibility_version" : "5.0.0"
+      },
+      "tagline" : "You Know, for Search"
+   }
+   ```
