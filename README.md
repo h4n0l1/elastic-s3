@@ -42,17 +42,19 @@
    > **[for master node]** 
    ```bash
    user@laptop:~/vagrant-boxes/Kubernetes$ vagrant ssh master
-   [vagrant@master ~]$ sudo /vagrant/scripts/kubeadm-setup-master.sh  ##you'll be asked for your credential at oracle.com
-   [vagrant@master ~]$ sudo docker logout
-   [vagrant@master ~]$ docker login   ##you'll be asked for your credential at docker.com
+   [vagrant@master ~]$ sudo su
+   [root@master vagrant]# /vagrant/scripts/kubeadm-setup-master.sh  ##you'll be asked for your credential at oracle.com
+   [root@master vagrant]# docker logout
+   [root@master vagrant]# docker login   ##you'll be asked for your credential at docker.com
    ```
 
    > **[for worker node]** 
    ```bash
    user@laptop:~/vagrant-boxes/Kubernetes$ vagrant ssh worker1
-   [vagrant@worker1 ~]$ sudo /vagrant/scripts/kubeadm-setup-worker.sh   ##you'll be asked for your credential at oracle.com
-   [vagrant@worker1 ~]$ sudo docker logout
-   [vagrant@worker1 ~]$ docker login   ##you'll be asked for your credential at docker.com
+   [vagrant@master ~]$ sudo su
+   [root@master vagrant]# /vagrant/scripts/kubeadm-setup-worker.sh   ##you'll be asked for your credential at oracle.com
+   [root@master vagrant]# docker logout
+   [root@master vagrant]# docker login   ##you'll be asked for your credential at docker.com
    ```
 
 9. Verify your kubernetes cluster by executing this command:
