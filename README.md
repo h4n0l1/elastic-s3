@@ -144,3 +144,23 @@
    Watching for changes...
    ```
 3. Now, every changes made in context folders (`./servers/elastic-s3` and/or `/servers/nginx`), will trigger build process, push new image(s) and deploy it.
+
+
+
+__Notes__: If you encountered these error messages
+```bash
+    master: [ERROR] Please allow iptables default FORWARD rule to ACCEPT
+    master:         the way to do it:
+    master:         # /sbin/iptables -P FORWARD ACCEPT
+The SSH command responded with a non-zero exit status. Vagrant
+assumes that this means the command failed. The output for this command
+should be in the log above. Please read the output to determine what
+went wrong.
+```
+Just SSH to specified node and execute the command then continue installation with `--provision` flag
+```bash
+user@laptop:~/vagrant-boxes/Kubernetes$ vagrant ssh master
+[vagrant@master ~]$ sudo /sbin/iptables -P FORWARD ACCEPT
+[vagrant@master ~]$ exit
+user@laptop:~/vagrant-boxes/Kubernetes$ vagrant up --provision
+```
