@@ -5,16 +5,16 @@ metadata:
   labels:
     app: revproxy
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: revproxy
   ports:
   - name: http
     port: 9200
-    nodePort: 30920
+    targetPort: 9200
     protocol: TCP
   - name: transport
     port: 9300
-    nodePort: 30930
+    targetPort: 9300
     protocol: TCP
 
