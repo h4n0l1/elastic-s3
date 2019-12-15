@@ -1,6 +1,6 @@
 # elastic-s3
 #Requirement
-1. Account at oracle.com
+1. Account at oracle.com, docker.com
 2. Vagrant (for Ubuntu 18.04 you can use version 2.2.6)
    - vagrant-env plugin, install it by executing command
      vagrant plugin install vagrant-env
@@ -27,13 +27,16 @@
 7. Now kubernetes already available in those instances, continue kubernetes cluster setup by executing script kubeadm-setup
    [for master node] 
    user@laptop:~/vagrant-boxes/Kubernetes$ vagrant ssh master
-   [vagrant@master ~]$ sudo /vagrant/scripts/kubeadm-setup-master.sh
+   [vagrant@master ~]$ sudo /vagrant/scripts/kubeadm-setup-master.sh #you'll be asked for your credential at oracle.com
+   [vagrant@master ~]$ sudo docker logout
+   [vagrant@master ~]$ docker login #you'll be asked for your credential at docker.com
 
    [for worker node] 
    user@laptop:~/vagrant-boxes/Kubernetes$ vagrant ssh worker1
-   [vagrant@worker1 ~]$ sudo /vagrant/scripts/kubeadm-setup-worker.sh
+   [vagrant@worker1 ~]$ sudo /vagrant/scripts/kubeadm-setup-worker.sh #you'll be asked for your credential at oracle.com
+   [vagrant@worker1 ~]$ sudo docker logout
+   [vagrant@worker1 ~]$ docker login #you'll be asked for your credential at docker.com
 
-   You will be asked to put your account credential at oracle.com
 8. Verify your kubernetes cluster by executing this command:
    user@laptop:~/vagrant-boxes/Kubernetes$ vagrant ssh master
    [vagrant@master ~]$ kubectl get nodes
@@ -41,6 +44,10 @@
    master.vagrant.vm    Ready    master   39m   v1.12.7+1.2.3.el7
    worker1.vagrant.vm   Ready    <none>   37m   v1.12.7+1.2.3.el7
 
-docker logout container-registry.oracle.com/kubernetes
-docker login
+
+#Pre Deployment
+1. kubectl label nodes master.vagrant.vm serve=instance-a
+   kubectl label nodes worker1.vagrant.vm serve=instance-b
+   kubectl taint nodes --all node-role.kubernetes.io/master-
+2. SSH to master node, then install skaffold, refer to this link for detail steps (https://skaffold.dev/docs/install/)
 
