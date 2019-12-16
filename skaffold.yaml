@@ -24,4 +24,4 @@ deploy:
       - ./kubernetes/es-svc.yaml
       - ./kubernetes/es-rc.yaml
       - ./kubernetes/rbac.yaml
-      - ./kubernetes/nginx.yaml
+#      - ./kubernetes/nginx.yaml
