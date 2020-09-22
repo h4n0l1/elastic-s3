@@ -1,5 +1,5 @@
 
-# elastic-s3
+# elastic-s3 - COBA RUBAH
 ## Requirement
 1. Account at oracle.com, docker.com
 2. Vagrant (for Ubuntu 18.04 you can use version 2.2.6)
